@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 
 /**
@@ -23,13 +23,10 @@ import javafx.stage.Stage;
  */
 public class TestFX extends Application {
     
-    MyVector location = new MyVector(0,0);
-    MyVector acceleration = new MyVector(0.1,0.1);
-    //MyVector myVector3 = myVector.add(myVector2);
+
     
-    MyVector velocity = new MyVector(1,1);
-    
-    
+    Mover mover = new Mover();
+    MyVector force = null;
     Group root;
     Scene theScene;
     
@@ -44,7 +41,7 @@ public class TestFX extends Application {
     
     public void start(Stage theStage) 
     {
-    theStage.setTitle(String.format("(%s, %s)", velocity.getX(), velocity.getY()));
+    theStage.setTitle(String.format("(%s, %s)", 1, 1));
     
     setup();     
 
@@ -57,6 +54,8 @@ public class TestFX extends Application {
 
     final long startNanoTime = System.nanoTime();
     
+    
+    
     new AnimationTimer()
     {
         public void handle(long currentNanoTime)
@@ -65,21 +64,18 @@ public class TestFX extends Application {
  
             double x = 232 + 128 * Math.cos(t);
             double y = 232 + 128 * Math.sin(t);
- 
-            //Change in location = velocity => location =location + velocity ger change varje frame
-           location =  location.add(velocity);
-           velocity = velocity.add(acceleration);
+            mover.applyForce(force);
+            mover.update();
+
             
-            System.out.println("Location X: " + location.getX()+ "Location Y: " + location.getY());
+            //System.out.println("Location X: " + location.getX()+ "Location Y: " + location.getY());
             
             gc.drawImage( space, 0, 0 );
             gc.drawImage( earth, x, y );
             gc.drawImage( sun, 196, 196 );
- 
-        
-            gc.setStroke(Color.WHITE);
-            gc.setLineWidth(5);
-            gc.strokeLine(0, 0, location.getX(), location.getY());
+            
+            mover.display(gc);
+
              
         }
     }.start();
@@ -100,12 +96,14 @@ public class TestFX extends Application {
 
 public void setup(){
     
+    force =  new MyVector(0.01,0.03);
     root = new Group();//creat root node
     theScene = new Scene( root );//add node to scene
     
     earth = new Image( "earth.png" );
     sun = new Image( "sun.png" );
     space = new Image( "space.png" ); 
+    
 }
     
 }    

@@ -25,7 +25,13 @@ public class MyVector {
     }
 
     public MyVector mul(MyVector other) {
-        return new MyVector(x * other.x, y * other.y);
+        return new MyVector(this.x * other.x, this.y * other.y);
+    }
+    
+    public MyVector div(double m){
+        
+        return new MyVector((this.getX())/m,(this.getY())/m);
+        
     }
 
     public double getX() {
