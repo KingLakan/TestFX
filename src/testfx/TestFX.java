@@ -7,6 +7,9 @@ package testfx;
 
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -14,8 +17,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -52,7 +61,28 @@ public class TestFX extends Application {
     
     GraphicsContext gc = canvas.getGraphicsContext2D();//ta grafik objekt från canvas   
 
-    final long startNanoTime = System.nanoTime();
+    
+final Rectangle rectPath = new Rectangle (0, 0, 40, 40);
+rectPath.setArcHeight(10);
+rectPath.setArcWidth(10);
+rectPath.setFill(Color.ORANGE);
+
+Path path = new Path();
+path.getElements().add(new MoveTo(20,20));
+path.getElements().add(new CubicCurveTo(380, 0, 380, 120, 200, 120));
+path.getElements().add(new CubicCurveTo(0, 120, 0, 240, 380, 240));
+PathTransition pathTransition = new PathTransition();
+pathTransition.setDuration(Duration.millis(4000));
+pathTransition.setPath(path);
+pathTransition.setNode(rectPath);
+pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+pathTransition.setCycleCount(Timeline.INDEFINITE);
+pathTransition.setAutoReverse(true);
+root.getChildren().add(rectPath);
+
+pathTransition.play();
+ 
+final long startNanoTime = System.nanoTime();
     
     
     
@@ -75,21 +105,13 @@ public class TestFX extends Application {
             gc.drawImage( sun, 196, 196 );
             
             mover.display(gc);
+            mover.checkEdges();
 
              
         }
     }.start();
     
-    /*
-    gc.setFill(Color.RED);
-    gc.setStroke(Color.BLACK);
-    gc.setLineWidth(2);
-        
-    Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-    gc.setFont( theFont );
-    gc.fillText( "Hello, World!", 60, 50 );
-    gc.strokeText( "Hello, World!", 60, 50 );
-    */
+
     
     theStage.show();
     }

@@ -4,8 +4,8 @@ package testfx;
 
 public class MyVector {
     
-    private final double x;
-    private final double y;
+    private  double x;
+    private  double y;
 
     
     public MyVector(double x, double y) {
@@ -40,6 +40,14 @@ public class MyVector {
 
     public double getY() {
         return this.y;
+    }
+    
+    public void  setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
     
 }

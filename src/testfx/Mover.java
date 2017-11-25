@@ -29,15 +29,37 @@ public void update(){
 }
 
 public void display( GraphicsContext gc){
-            gc.setStroke(Color.WHITE);
+             gc.setFill(Color.GREEN);
+             gc.fillOval(location.getX(), location.getY(), 10, 10);
+            /*gc.setStroke(Color.WHITE);
             gc.setLineWidth(5);
             gc.strokeLine(0, 0, location.getX(), location.getY());
-            
+            */
 }
     
 public void applyForce(MyVector force){
     MyVector newForce = force.div(this.mass);
     acceleration = acceleration.add(newForce);
+}
+
+public void checkEdges(){
+    if(location.getX()>512){
+        location.setX(512);
+        velocity.setX(velocity.getX()*-1);
+        
+    }else if(location.getX()<0){
+        location.setX(0);
+        velocity.setX(velocity.getX()*-1); 
+    }
+    
+    if(location.getY()>512){
+        velocity.setY(velocity.getY()*-1);
+        location.setY(512);
+    }else if(location.getY()<0){
+        location.setY(0);
+        velocity.setY(velocity.getY()*-1); 
+    }
+       
 }
         
 }
