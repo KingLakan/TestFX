@@ -21,11 +21,11 @@ public Mover(){
 }
 
 public void update(){
-     System.out.println("Acceleration X: " + acceleration.getX()+ "Acceleration Y: " + acceleration.getY());
+    // System.out.println("Acceleration X: " + acceleration.getX()+ "Acceleration Y: " + acceleration.getY());
     velocity = velocity.add(acceleration);    
     location = location.add(velocity);
     acceleration = acceleration.mul(zero);
-    System.out.println("Location X: " + location.getX()+ "Location Y: " + location.getY());
+    //System.out.println("Location X: " + location.getX()+ "Location Y: " + location.getY());
 }
 
 public void display( GraphicsContext gc){

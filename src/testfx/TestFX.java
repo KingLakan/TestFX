@@ -13,10 +13,13 @@ import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
@@ -36,29 +39,43 @@ public class TestFX extends Application {
     
     Mover mover = new Mover();
     MyVector force = null;
-    Group root;
+    //Group root;
     Scene theScene;
     
     Image earth;
     Image sun;
     Image space;
     
-    
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
-    public void start(Stage theStage) 
+    Main main = new Main();//STARTAR GRAFIK TRÅDEN
+    //public static void main(String[] args) {
+     
+    //    launch(args);
+    //}
+  
+    public void start(Stage theStage) throws Exception 
     {
+
+    
     theStage.setTitle(String.format("(%s, %s)", 1, 1));
     
     setup();     
+   GridPane root = new GridPane();
 
+   root.setAlignment(Pos.CENTER);
+root.setHgap(10);
+root.setVgap(10);
+root.setPadding(new Insets(0, 10, 0, 10));
+root.setGridLinesVisible(true);
+    //root = new Group();//creat root node
+     theScene = new Scene( root, 512, 512 );//add node to scene
+    
     theStage.setScene( theScene );//add scene to staget
     
     Canvas canvas = new Canvas(512,512);
-    root.getChildren().add(canvas);//add canvas to rootnode
     
+    root.getChildren().add(canvas);//add canvas to rootnode
+    //root.getChildren().add(new Menu().addVBox());
+    root.add(new Menu().addVBox(theStage), 0, 0,1,1);
     GraphicsContext gc = canvas.getGraphicsContext2D();//ta grafik objekt från canvas   
 
     
@@ -84,8 +101,7 @@ pathTransition.play();
  
 final long startNanoTime = System.nanoTime();
     
-    
-    
+
     new AnimationTimer()
     {
         public void handle(long currentNanoTime)
@@ -119,8 +135,7 @@ final long startNanoTime = System.nanoTime();
 public void setup(){
     
     force =  new MyVector(0.01,0.03);
-    root = new Group();//creat root node
-    theScene = new Scene( root );//add node to scene
+
     
     earth = new Image( "earth.png" );
     sun = new Image( "sun.png" );
